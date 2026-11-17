@@ -1,0 +1,103 @@
+Esta rota do Laravel define a página inicial da aplicação
+e atribui-lhe o nome welcome, permitindo que seja referenciada noutras partes do projeto
+Em home.blade.php tenho: <ul><a href="{{route('welcome')}}">Welcome Page</a></ul>
+Quando for a http://127.0.0.1:8000/homepage tenho um link em Welcome page, carregando vou para este em baixo com o nome welcome que me envia para http://127.0.0.1:8000/
+
+'/' quer dizer a raiz do site, ou seja, o endereço principal da tua aplicação Laravel.
+
+Route::get('/', function () {
+    return view('welcome');
+})->name('welcome');
+
+-----------------------------------------
+
+Esta é uma função anónima (também chamada closure).
+O Laravel executa-a quando alguém acede à rota.
+A variável $message recebe automaticamente o valor do parâmetro {message} presente no URL.
+se colocar no browser para http://127.0.0.1:8000/hello3/Andre vai aparecer em baixo: Hello Andre
+
+Route::get('/hello3/{message}', function ($message) {
+    return '<h1>Hello '.$message.'</h1>';
+});
+
+-----------------------------------------
+
+Route::get('/homepage', function () {
+    return view('home');
+})->name('home');
+
+OU
+
+Route::get('/homepage', [UtilController::class, 'loadHomepage' ]) ->name('home');
+
+-----------------------------------------
+
+//rota fallback
+Se eu colocar uma rota que nao exista, vai parar a esta pagina em vez de dar erro 404
+Convem a rota fall back ficar sempre em ultimo nas routes
+rota fallback
+Route::fallback(function(){
+    return view('utils.fallback');
+});
+
+-----------------------------------------
+
+rota de users
+Primeira linha: http://127.0.0.1:8000/users
+Segunda linha: VÉ equivalente a indicar o ficheiro: resources/views/users/allusers.blade.php
+Terceira linha: Atribui o nome users.all à rota.Assim, em qualquer vista Blade, podes criar uma ligação para essa página:
+<a href="{{ route('users.all') }}">Ver utilizadores</a>
+
+Route::get('/users', function () {
+    return view('users.allusers');
+})->name('users.all');
+
+OU
+
+Route::get('/users', [UserController::class, 'loadUsers' ])->name('users.all');
+
+-----------------------------------------
+
+Route::get('/usersAdd', function () {
+    return view('users.addUsers');
+})->name('users.add');
+
+OU
+
+Route::get('/usersAdd', [UserController::class, 'addUsers' ])->name('users.add');
+
+-----------------------------------------
+
+O dd() não é uma função nativa do PHP. É uma função auxiliar (helper) disponibilizada pelo Laravel, através do componente Symfony VarDumper.
+
+-----------------------------------------
+
+O que faz var_dump()?
+A função apresenta informações detalhadas sobre uma variável, incluindo:
+- Tipo de dados (string, int, bool, array, etc.).
+- Valor armazenado.
+- Tamanho, quando aplicável, como o número de caracteres de uma string ou o número de elementos de um array.
+
+-----------------------------------------
+
+use Illuminate\Http\Request;
+serve para importar a classe Request do Laravel, permitindo utilizá-la no teu código sem escrever o seu nome
+A classe Request permite aceder aos dados enviados pelo utilizador através de um pedido HTTP
+
+-----------------------------------------
+
+php artisan make:controller FlightController -r
+serve para criar automaticamente um Controller no Laravel, com os métodos necessários para realizar operações CRUD.
+
+-----------------------------------------
+
+php artisan migrate:status
+Vê o status das migracoes (tabelas / SQL) em database / migration
+
+-----------------------------------------
+
+php artisan migrate:rollback
+rollback / reverte da/a ultima migracao
+
+-----------------------------------------
+

@@ -20,7 +20,8 @@ Route::get('/users', [UserController::class, 'allUsers' ])->name('users.all');
 Route::get('/addUsers', [UserController::class, 'addUsers' ])->name('users.add');
 
 // rota de editar users
-Route::get('/edit-users/{id}',[UserController::class, 'editUsers'] )->name('users.edit');
+Route::get('/edit-users/{id}',[UserController::class, 'editUsers'] )->name('users.edit')->middleware('auth');
+
 
 // rota de apagar users
 Route::get('/delete-users/{id}',[UserController::class, 'deleteUsers'] )->name('users.delete');

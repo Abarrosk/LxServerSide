@@ -14,12 +14,29 @@ class UserController extends Controller
 public function allUsers () {
     // $this refere-se à instância atual da classe UserController
     $usersWDB = $this->loadUsersWDB();
-    $usersFromDB = User::
-   // ->where('name','Sara')
-     select('id','name', 'address', 'email','nif')
-
-    ->get();
+    // $usersFromDB = User:: ->where('name','Sara') select('id','name', 'address', 'email','nif') ->get();
     //dd($usersFromDB);
+
+    $query = User::select('id','name', 'address', 'email','nif');
+
+    $searchPar = request()->query('search')?request()->query('search'):null;
+    // OU $searchPar = request()->query('search') ?: null;
+    // ou $searchPar = request()->query('search') ?? null;
+
+    if($searchPar){
+        $query->where('name',  $searchPar);
+    }
+
+    if($searchPar){
+        $query->where('name','LIKE' , "%{$searchPar}%")
+        ->orWhere('email','LIKE' , "%{$searchPar}%");
+    }
+
+
+    $usersFromDB=$query->get();
+    $searchPar = request()->query('search')?request()->query('search'):null;
+
+
       return view('users.allusers', compact('usersWDB', 'usersFromDB'));
 }
 

@@ -14,9 +14,11 @@
     {{-- condicao ? valorSeVerdadeiro : valorSeFalso; --}}
     <h5>Bom dia {{ isset($userName) ? $userName : $courseName }}</h5>
     <h6>O contacto é o {{ $contactInfo['name'] }} - {{ $contactInfo['contact'] }}</h6>
-
-
     <h6>Os contactos do {{ $cesae_info['name'] }} são: {{ $cesae_info['address'] }} e {{ $cesae_info['email'] }}</h6>
+
+    @auth
+        <h6>Olá {{ Auth::user()->name }}</h6>
+    @endauth
 
     <h5>Alunos da turma</h5>
     <ul>

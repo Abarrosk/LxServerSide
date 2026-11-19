@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 //use Illuminate\Support\Facades\DB;
 
 
@@ -17,7 +18,7 @@ public function allUsers () {
     // $usersFromDB = User:: ->where('name','Sara') select('id','name', 'address', 'email','nif') ->get();
     //dd($usersFromDB);
 
-    $query = User::select('id','name', 'address', 'email','nif');
+    $query = User::select('id','name', 'address', 'email','nif','photo');
 
     $searchPar = request()->query('search')?request()->query('search'):null;
     // OU $searchPar = request()->query('search') ?: null;
@@ -90,13 +91,19 @@ public function addUsers () {
     public function updateUser(Request $request) {
 
             $request->validate([
-            'name' =>'required|max:50'
+            'name' =>'required|max:50',
+            'photo' =>'image'
         ]);
-
+        if($request->hasFile('photo'))
+            {
+                //armazenar no storage
+                $photo = Storage::putFile('userPhotos', $request->photo);
+            }
         User::where('id', $request->id)->update([
             'name'=> $request->name,
             'address'=> $request->address,
             'nif'=> $request->nif,
+            'photo' => isset($photo) ? $photo : null
         ]);
 
         return redirect()->route('users.all')->with('message', 'user actualizado com sucesso!');

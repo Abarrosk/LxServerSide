@@ -24,18 +24,23 @@
     <table class="table">
         <thead>
             <tr>
+                <th scope="col">Imagem</th>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Address</th>
                 <th scope="col">NIF</th>
-                <th scope="col">Apagar</th>
-                <th scope="col">Editar</th>
+                @auth
+                    <th scope="col">Apagar</th>
+                    <th scope="col">Editar</th>
+                @endauth
             </tr>
         </thead>
         <tbody>
             @foreach ($usersFromDB as $users)
                 <tr>
+                    <td><img src="{{ $users->photo ? asset('storage/' . $users->photo) : asset('images/nophoto.jpg') }}">
+                    </td>
                     <th scope="row">{{ $users->id }}</th>
                     <td>{{ $users->name }}</td>
                     <td>{{ $users->email }}</td>
@@ -47,7 +52,6 @@
                     @auth
                         <td><a href="{{ route('users.edit', $users->id) }}" class="btn btn-info">Ver / Editar</a></td>
                     @endauth
-
                 </tr>
             @endforeach
         </tbody>

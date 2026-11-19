@@ -41,7 +41,9 @@
                     <td>{{ $users->email }}</td>
                     <td>{{ $users->address }}</td>
                     <td>{{ $users->nif }}</td>
-                    <td><a href="{{ route('users.delete', $users->id) }}" class="btn btn-danger">Apagar</a></td>
+                    @if (Auth::user() && Auth::user()->email == 'admin@gmail.com')
+                        <td><a href="{{ route('users.delete', $users->id) }}" class="btn btn-danger">Apagar</a></td>
+                    @endif
                     @auth
                         <td><a href="{{ route('users.edit', $users->id) }}" class="btn btn-info">Ver / Editar</a></td>
                     @endauth

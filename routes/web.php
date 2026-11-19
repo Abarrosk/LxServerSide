@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GiftController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
@@ -8,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 // Este tipo de rotas é semelhante às que já usei anteriormente (em NOTASANDRE.txt), mas tem uma diferença importante: em vez de executar uma função anónima diretamente na rota, chama um método de um Controller (controlador).
 
-Route::get('/', [UtilController::class, 'loadWelcome' ])->name('welcome');
+Route::get('/', [UtilController::class, 'loadHomepage' ])->name('welcome');
 
 // rota de homepage
 Route::get('/homepage', [UtilController::class, 'loadHomepage' ]) ->name('home');
@@ -54,6 +55,9 @@ Route::put('/update-prendas', [GiftController::class, 'updatePrendas'])->name('p
 
 Route::post('/store-prendas', [GiftController::class, 'storePrendas'])->name('prendas.store');
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard')->middleware('auth');
 
 //rota fallback
 Route::fallback(function(){
